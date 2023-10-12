@@ -3,6 +3,9 @@
 ##############################
 # Initialize pyenv and other environment variables as needed
 ##############################
+# Source configurations: importing pyenv_interpreters, not_pyenv_interpreters, external_libraries_to_install
+# config.sh must be in the same directory as the current file
+source config.sh
 
 # Check if pyenv is installed and available
 if ! command -v pyenv &> /dev/null; then
@@ -10,25 +13,39 @@ if ! command -v pyenv &> /dev/null; then
     exit 1
 fi
 
-# Python interpreters to install via pyenv if it is not installed.
-interpreters=("2.1.3" "2.7.18" "3.8.12" "3.9.7" "3.10.5" "3.11.0" "3.12.0" "3.13-dev" "jython-2.5.0" "jython-2.7.2" "cinder-3.10-dev" "anaconda3-2019.03" "anaconda3-2020.02" "anaconda3-2021.04" "anaconda3-2022.05" "anaconda3-2023.07-2" "micropython-1.19.1" "pypy3.7-7.3.7" "pypy3.9-v7.3.13-linux64" "pypy3.10-v7.3.13-linux64" "pythonnet-3.0.2" "stackless-3.7.5" "ironpython-2.7.5" "graalpy-23.1.0" "mambaforge-22.9.0-3" "miniconda3-4.7.12" "miniforge3-22.11.1-4" "nogil-3.9.10-1")
-#"3.0.1" "3.1.0" "pypy-1.6" "pypy-5.7.0" "pypy2-5.3" "pypy3-2.3.1" "ironpython-2.7.7" "pyston-2.3.5"
-# The necessary libraries for testing python files will be installed in the venv.
-libraries_to_install=("numpy")
+# Check if pyenv_interpreters and not_pyenv_interpreters are empty
+if [ ${#pyenv_interpreters[@]} -eq 0 ] && [ ${#not_pyenv_interpreters[@]} -eq 0 ]; then
+    echo "Error: pyenv_interpreters and not_pyenv_interpreters is empty. Please provide interpreter versions in config.sh."
+    exit 1
+    # raise error: we need interpreters to do tests
+fi
+# "pypy3.9-v7.3.13-linux64" "pypy3.10-v7.3.13-linux64" "pythonnet-3.0.2"
 
-# All Python files must be in the 'python_scripts_to_test' directory
+# All Python files for tests must be in the 'python_scripts_to_test' directory
 # 'python_scripts_to_test' must be in the same directory as tester.sh
 files_to_execute=(python_scripts_to_test/*.py)
 
 # new_python_rows need to measure execution time from inside of the python file
 new_python_rows=$(cat <<EOF
-import time
-tic = time.perf_counter_ns()
+import timeit
+tic = timeit.default_timer()
 image = mandelbrot()
-toc = time.perf_counter_ns()
-print(round((toc - tic)/1_000_000))
+toc = timeit.default_timer()
+print(round((toc - tic) * 1000))
 EOF
 )
+
+# Contract a function of installing external_libraries_to_install
+install_external_packages() {
+    local interpreter="$1"  # declares a local variable and assigns it the value of the first argument passed to the function
+    # external_libraries_to_install was imported
+    for external_package in "${external_libraries_to_install[@]}"; do
+        if ! pip show "$external_package" &> /dev/null; then
+            echo "Installing $external_package for $interpreter..."
+            pip install "${external_package}" > /dev/null 2>&1 || echo "Failed to install $external_package."
+        fi
+    done
+}
 
 # Extract file names from paths and filter for specific file name
 echo "The next files will be tested for time execution:"
@@ -44,29 +61,41 @@ echo "Error,File,TimeFunctions(ms),TimeScript(ms),TimeScriptInterpreter(ms),Inte
 
 
 ##############################
-# Install all python interpreters and external packages
+# Install all python pyenv_interpreters, not_pyenv_interpreters and external packages
 ##############################
 
-# Loop through each interpreter and function file
-for interpreter in "${interpreters[@]}"; do
-    # Check if the interpreter is already installed in pyenv, if not: install
-    if ! pyenv versions --bare | grep -wq "$interpreter"; then
-        # Create a virtual environment for the interpreter
-        echo "$interpreter is not installed in pyenv. Installing..."
-        pyenv install "$interpreter" || { echo "Failed to install $interpreter."; exit 1; }
-    fi
-
-    pyenv local "$interpreter"  # Set the Python locally
-
-#   Install external packages (compatible with the interpreter version) if they are not
-    for external_package in "${libraries_to_install[@]}"; do
-        if ! pip show "$external_package" &> /dev/null; then
-            echo "Installing $external_package for $interpreter..."
-            pip install "${external_package}" > /dev/null 2>&1 || echo "Failed to install $external_package."
+# Check pyenv_interpreters for not empty case
+if [ -n "$pyenv_interpreters" ]; then
+    # Python pyenv_interpreters to install via pyenv if it is not installed before.
+    # pyenv_interpreters was imported
+    for interpreter in "${pyenv_interpreters[@]}"; do
+        # Check if the interpreter is already installed in pyenv, if not: install
+        if ! pyenv versions --bare | grep -wq "$interpreter"; then
+            # Create a virtual environment for the interpreter
+            echo "$interpreter is not installed in pyenv. Installing..."
+            pyenv install "$interpreter" || { echo "Failed to install $interpreter."; exit 1; }
         fi
-    done
-done
 
+        pyenv local "$interpreter"  # Set the Python locally
+        # Install external packages (compatible with the interpreter version) if they are not
+        install_external_packages "$interpreter"
+    done
+fi
+
+# Check not_pyenv_interpreters for not empty case
+# $not_pyenv_interpreters was imported
+if [ -n "$not_pyenv_interpreters" ]; then
+    # Upgrade pip to have the last version
+    pip install --upgrade pip
+    # Python not_pyenv_interpreters to install via pip if it is not installed before.
+    for interpreter in "${not_pyenv_interpreters[@]}"; do
+        pip install "${interpreter}"
+
+        pyenv local "$interpreter"  # Set the Python locally
+        # Install external packages (compatible with the interpreter version) if they are not
+        install_external_packages "$interpreter"
+    done
+fi
 
 ##############################
 # Calculate time execution of the script
@@ -79,7 +108,7 @@ for file_path in "${files_to_execute[@]}"; do
     # Append the new content to the temporary file
     echo "$new_python_rows" >> temp_file.py
 
-    for interpreter in "${interpreters[@]}"; do
+    for interpreter in "${pyenv_interpreters[@]}"; do
 
         # Measure the whole execution time in microseconds
         start_whole_time=$(date +%s%3N)  # Get the start whole time in microseconds
