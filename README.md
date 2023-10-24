@@ -1,4 +1,5 @@
 # Python Interpreter Performance: Testing and Insights
+Let's Radically Improve Your Python Time Execution.
 
 The article explains how Python interpreters work, what types exist and provides test comparisons with deep analytics.
 Here represented 18 Python interpreters and 28 versions.
@@ -6,10 +7,10 @@ The project provides an opportunity to test time execution of any files with '.p
 
 Temporary:
 The project as an article in the next resources: linkedin, vc.ru, tproger, medium, hashnode, habr, towardsdatascience, ?tabnine
-Reserch the [article](https://towardsdatascience.com/getting-started-with-pypy-ef4ba5cb431c)
+Research the [article](https://towardsdatascience.com/getting-started-with-pypy-ef4ba5cb431c)
 
 ## Table of Contents
-
+take all the names and split by groups
 - [About](#about)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -88,8 +89,12 @@ Just run the file:
 ```shell
 ./tester.sh
 ```
-During the execution phase, all interpreters will be installed automatically. The configuration is handled through a ```config.sh``` file, which contains the details of the interpreters and necessary libraries for performing Mandelbrot set calculations.
+During the execution phase, all interpreters will be downloaded and installed automatically. The configuration is handled through a ```config.sh``` file, which contains the details of the interpreters and necessary libraries for performing Mandelbrot set calculations.
 ```config.sh``` and ```tester.sh``` must be in the same directory.
+
+My internet connection is ~10Mb/s.
+Time execution of ```./tester.sh``` from scratch is 30 minutes:
+- 1 minute is computations
 
 #### ```config.sh``` File Structure:
 - **pyenv_interpreters**: Lists interpreters usable by the pyenv system.
