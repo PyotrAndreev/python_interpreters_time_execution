@@ -6,10 +6,6 @@ The article explains how Python interpreters work, what types exist and provides
 Here represented 18 Python interpreters and 28 versions.
 The project provides an opportunity to test time execution of any files with '.py' extinction.
 
-Temporary:
-The project as an article in the next resources: linkedin, vc.ru, tproger, medium, hashnode, habr, towardsdatascience, ?tabnine
-Research the [article](https://towardsdatascience.com/getting-started-with-pypy-ef4ba5cb431c)
-
 ## Table of Contents
 take all the names and split by groups
 - [About](#about)
@@ -161,7 +157,8 @@ The engines that power your Python programs, making them come to life.
 2. **Python Object Access**: Without the ```GIL```, ```Python``` objects cannot be accessed from multiple threads without the use of locks or other synchronization mechanisms. This can lead to situations where you need to be extra cautious to prevent unexpected behavior. Imagine you are working on a web server application, and different threads are handling incoming requests. Without proper synchronization, one thread's action could inadvertently affect another's.
 3. **Not Always Faster**: The benefits of ```Nogil``` are mostly seen in ```CPU```-bound tasks. For ```I/O```-bound tasks, the advantages might not be as pronounced, and the increased complexity may not be worth the trade-off. In some cases, it can even slow your program down. Python threads may be slower than expected due to the overhead of managing multiple threads. So, you have to carefully analyze your specific use case to see if going ```Nogil``` is worthwhile.
 
-!!! ### PyPy
+### PyPy
+!!! not complited
 - [Heptapod](https://foss.heptapod.net/pypy/pypy)
 - [Main site](https://www.pypy.org/)
 - [Documentation](https://doc.pypy.org/en/latest/)
