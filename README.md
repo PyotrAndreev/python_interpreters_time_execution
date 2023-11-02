@@ -1,5 +1,4 @@
-ERROR: runtime_result.csv: Error can be 255, WHY? It should be 0 or 1
-Compare with [Mojo](https://www.modular.com/mojo)
+
 # Python Interpreter Performance: Testing and Insights
 Let's Radically Improve Your Python Time Execution.
 
