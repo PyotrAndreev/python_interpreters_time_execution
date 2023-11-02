@@ -172,7 +172,8 @@ The engines that power your Python programs, making them come to life.
 1. **Warm-Up Time**: While ```PyPy``` is faster for long-running processes, it has a warm-up time. This means for brief scripts, it may not be as quick as ```CPython``` because of the time it takes to compile your code. However, this is often negligible for most real-world applications.
 2. **Limited Support for C-Extensions**: Some ```Python``` packages that rely on ```C```-extensions might not work with ```PyPy```. While many packages do, this can be a limitation if you depend on a specific package that's not compatible.
 
-!!! ### Pyston
+### Pyston
+!!! not complited
 - [GitHub](https://github.com/pyston/pyston)
 - [Main site](https://www.pyston.org/)
 - [Blog](https://blog.pyston.org/)
@@ -232,7 +233,8 @@ The engines that power your Python programs, making them come to life.
 2. **Resource Intensive**: It can be resource-intensive. Some data science tasks can be memory-hungry, and ```Anaconda``` may require a substantial amount of ```RAM```. If you're working on a machine with limited resources, it might slow down your system.
 3. **Updates**: ```Anaconda``` updates might not be as frequent as the official ```Python``` interpreter ```CPython```. This can be an issue if you need the bleeding-edge ```Python``` features.
 
-!!! ### Miniconda
+### Miniconda
+!!! not complited
 - [User guide](https://docs.conda.io/projects/conda/en/stable/user-guide/index.html) 
 - [Documentation](https://docs.conda.io/projects/miniconda/en/latest/)
 
@@ -242,12 +244,14 @@ A free minimal installer for conda. Miniconda is a small, bootstrap version of A
 #### Cons:
 1. **Limited Pre-installed Packages**: As a minimalistic distribution, Miniconda doesn't come with a wide array of pre-installed scientific packages and tools that are present in Anaconda. You have to manually install many of them.
 
-!!! ### Miniforge
+### Miniforge
+!!! not complited
 - [GitHub](https://github.com/conda-forge/miniforge)
 
 Miniforge is a lightweight distribution of Python, based on conda, designed for minimalism and simplicity in managing packages and environments for scientific computing and data science applications. If Miniforge is on the system path (default on Mac and Linux), its versions of the ```conda``` and ```mamba``` programs can be used at any command prompt. The most notable difference is that the default channel for packages will be conda-forge.
 
-!!! ### Xeus
+### Xeus
+!!! not complited
 - [GitHub](https://github.com/jupyter-xeus/xeus)
 - [Documentation](https://xeus.readthedocs.io/en/latest/)
 
@@ -258,7 +262,8 @@ Miniforge is a lightweight distribution of Python, based on conda, designed for 
 #### Cons:
 1. **Resource Consumption**: Due to its support for languages like C++, which can be resource-intensive, ```Xeus``` might require more computational resources. If you're working on a less powerful machine, this can be a drawback.
 
-!!! ### MicroPython
+### MicroPython
+!!! not complited
 - [GitHub](https://github.com/micropython/micropython)
 - [Main site](https://micropython.org/)
 - [Documentation](https://docs.micropython.org/en/latest/)
@@ -271,7 +276,8 @@ MicroPython is a wonderful tool for lightweight, power-efficient, and compact im
 1. **Limited Libraries**: While MicroPython has a rich library ecosystem, it's not as extensive as regular Python. Some libraries and modules you're accustomed to may be absent, so you may need to build custom solutions for certain tasks.
 2. **Less Computing Power**: MicroPython's main aim is to run on resource-constrained devices. This means it won't perform as well as full Python on more capable hardware.
 
-!!! ### Pythonnet
+### Pythonnet
+!!! not complited
 - [GitHub](https://github.com/pythonnet/pythonnet)
 - [Main site](http://pythonnet.github.io/)
 - [Documentation](https://pythonnet.github.io/pythonnet/)
@@ -298,7 +304,8 @@ IronPython is an open-source implementation of the Python programming language t
 2. **Compatibility with C Extensions**: ```CPython``` has a vast ecosystem of C-based extensions, and IronPython is not compatible with these. If your project relies on such extensions, you might face challenges.: ```CPython``` has a vast ecosystem of C-based extensions, and IronPython is not compatible with these. If your project relies on such extensions, you might face challenges.
 3. **Not the Python Reference Implementation**: Since IronPython is not the reference implementation of Python, it may not be suitable for scenarios where strict adherence to the Python language specification is required.
 
-!!! ### Stackless
+### Stackless
+!!! not complited
 - [GitHub](https://github.com/stackless-dev/stackless/tree/main-slp/Stackless)
 - [Main site](http://www.stackless.com)
 - [Documentation](https://stackless.readthedocs.io/en/3.7-slp/stackless-python.html)
@@ -313,12 +320,14 @@ Stackless Python is an enhanced version of the Python programming language that 
 #### Cons:
 1. **Compatibility**: Stackless Python may not be fully compatible with all Python libraries and frameworks. This can be an issue if your project relies on third-party packages that are not adapted for Stackless Python.
 
-!!! ### Cinder
+### Cinder
+!!! not complited (not interpreter)
 - [GitHub](https://github.com/facebookincubator/cinder)
 
 Cinder is Meta's internal performance-oriented production version of ```CPython``` 3.10. It contains a number of performance optimizations, including bytecode inline caching, eager evaluation of coroutines, a method-at-a-time JIT, and an experimental bytecode compiler that uses type annotations to emit type-specialized bytecode that performs better in the JIT. Cinder is powering Instagram, where it started, and is increasingly used across more and more Python applications in Meta.
 
-!!! ### Pyodide
+### Pyodide
+!!! not complited
 - [GitHub](https://github.com/pyodide/pyodide)
 - [Documentation](https://pyodide.org/en/stable/)
 - [Try in your browser](https://pyodide.org/en/stable/console.html) on any device
@@ -332,7 +341,8 @@ Cinder is Meta's internal performance-oriented production version of ```CPython`
 2. **Performance**: Although Pyodide is impressive, it may not be as performant as a locally installed Python interpreter. For heavy computations or large datasets, you might notice a difference in speed.
 3. **Internet Connection**: Internet is required to run Pyodide.
 
-!!! ### Brython
+### Brython
+!!! not complited
 - [GitHub](https://github.com/brython-dev/brython)
 - [Main site](https://brython.info/)
 - [Documentation](https://brython.info/static_doc/3.12/en/intro.html)
